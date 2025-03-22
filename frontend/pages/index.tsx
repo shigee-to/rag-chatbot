@@ -12,7 +12,7 @@ export default function Home() {
     setInput("");
 
     try {
-      const res = await axios.post("http://localhost:8000/chat", {
+      const res = await axios.post("http://localhost:8000/chat_rag", {
         message: input,
       });
       setMessages((prev) => [...prev, `🤖: ${res.data.reply}`]);
@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <main className="p-8 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">🧠 ChatBot UI</h1>
+      <h1 className="text-2xl font-bold mb-4">📄 RAG ChatBot</h1>
 
       <div className="border p-4 rounded h-96 overflow-y-scroll mb-4 bg-white shadow">
         {messages.map((msg, i) => (
@@ -41,7 +41,7 @@ export default function Home() {
           placeholder="質問を入力..."
         />
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-green-600 text-white px-4 py-2 rounded"
           onClick={handleSend}
         >
           送信
