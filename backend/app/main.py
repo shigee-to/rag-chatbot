@@ -39,5 +39,5 @@ qa_chain = create_qa_chain()
 
 @app.post("/chat_rag")
 def chat_rag(req: ChatRequest):
-    response = qa_chain.run(req.message)
+    response = qa_chain.invoke({"query": req.message})
     return {"reply": response}
