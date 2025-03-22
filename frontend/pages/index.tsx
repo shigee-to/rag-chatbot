@@ -93,6 +93,11 @@ export default function Home() {
               アップロード
             </button>
           </div>
+          {file && (
+            <p className="text-sm text-gray-600">
+              選択中のファイル: <span className="font-medium">{file.name}</span>
+            </p>
+          )}
           {uploadedFilename && (
             <p className="text-sm text-green-600">
               アップロード済: {uploadedFilename}
