@@ -7,14 +7,12 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadedFilename, setUploadedFilename] = useState<string>("");
 
-  // ファイル選択
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       setFile(e.target.files[0]);
     }
   };
 
-  // ファイルアップロード
   const handleUpload = async () => {
     if (!file) return;
 
@@ -30,8 +28,7 @@ export default function Home() {
         }
       );
 
-      console.log("アップロード成功:", res.data);
-      setUploadedFilename(res.data.filename); // ← ここが重要！
+      setUploadedFilename(res.data.filename);
       alert("アップロード成功: " + res.data.filename);
     } catch (err) {
       alert("アップロード失敗");
@@ -39,7 +36,6 @@ export default function Home() {
     }
   };
 
-  // PDFに基づく質問
   const handleSend = async () => {
     if (!input) return;
 
@@ -68,53 +64,71 @@ export default function Home() {
   };
 
   return (
-    <main className="p-8 max-w-xl mx-auto space-y-4">
-      <h1 className="text-2xl font-bold">📄 RAGチャットボット</h1>
+    <main className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-2xl mx-auto space-y-6">
+        <h1 className="text-3xl font-bold text-center text-gray-800">
+          📄 RAGチャットボット
+        </h1>
 
-      {/* アップロードエリア */}
-      <div className="border p-4 rounded shadow">
-        <p className="mb-2">PDFを選択してアップロード：</p>
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={handleFileChange}
-        />
-        <button
-          className="ml-2 bg-blue-600 text-white px-3 py-1 rounded"
-          onClick={handleUpload}
-        >
-          アップロード
-        </button>
-        {uploadedFilename && (
-          <p className="mt-2 text-sm text-green-600">
-            アップロード済: {uploadedFilename}
-          </p>
-        )}
-      </div>
+        <div className="bg-white rounded-xl shadow p-4 space-y-3">
+          <p className="font-medium text-gray-700">PDFをアップロード：</p>
+          <div className="flex items-center gap-3">
+            <label
+              htmlFor="pdf-upload"
+              className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded cursor-pointer transition"
+            >
+              ファイルを選択
+            </label>
+            <input
+              id="pdf-upload"
+              type="file"
+              accept="application/pdf"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition cursor-pointer"
+              onClick={handleUpload}
+            >
+              アップロード
+            </button>
+          </div>
+          {uploadedFilename && (
+            <p className="text-sm text-green-600">
+              アップロード済: {uploadedFilename}
+            </p>
+          )}
+        </div>
 
-      {/* チャットログ */}
-      <div className="border p-4 rounded h-96 overflow-y-scroll bg-white shadow">
-        {messages.map((msg, i) => (
-          <p key={i} className="mb-2 whitespace-pre-wrap">
-            {msg}
-          </p>
-        ))}
-      </div>
+        <div className="bg-white rounded-xl shadow p-4 h-96 overflow-y-auto flex flex-col gap-3">
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`px-4 py-2 rounded-xl max-w-[80%] whitespace-pre-wrap text-sm ${
+                msg.startsWith("🧑‍💻")
+                  ? "bg-blue-100 self-end text-right"
+                  : "bg-gray-100 self-start"
+              }`}
+            >
+              {msg}
+            </div>
+          ))}
+        </div>
 
-      {/* 入力フォーム */}
-      <div className="flex gap-2">
-        <input
-          className="border p-2 rounded flex-1"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="質問を入力..."
-        />
-        <button
-          className="bg-green-600 text-white px-4 py-2 rounded"
-          onClick={handleSend}
-        >
-          送信
-        </button>
+        <div className="flex gap-3">
+          <input
+            className="flex-1 border border-gray-300 rounded px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="質問を入力..."
+          />
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow transition cursor-pointer"
+            onClick={handleSend}
+          >
+            送信
+          </button>
+        </div>
       </div>
     </main>
   );
