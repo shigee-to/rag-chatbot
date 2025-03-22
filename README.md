@@ -32,7 +32,7 @@ PDF をアップロードすると、その内容に基づいて ChatGPT が質�
 ## セットアップ手順
 
 ```bash
-git clone https://github.com/your-username/rag-chatbot.git
+git clone 
 cd rag-chatbot
 
 # .env ファイルを作成し、OpenAI APIキーを記載
